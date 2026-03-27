@@ -5,238 +5,214 @@
 # Building Reasoning Engines  
 ### for Regulated Industries
 
-**AI architecture for healthcare, finance, and real estate.**  
+**AI architecture for healthcare, finance, and real estate**  
 *I partner with organisations to build data solutions that deliver measurable business outcomes.*
 
-[Website](https://www.sensibleanalytics.co) · [LinkedIn](https://www.linkedin.com/in/prabhatr/) · [Consultation](https://www.sensibleanalytics.co/#contact)
+[🌐 Visit Website](https://www.sensibleanalytics.co) · [💼 LinkedIn](https://www.linkedin.com/in/prabhatr/) · [📧 Get in Touch](mailto:hello@sensibleanalytics.co)
 
 </div>
 
 ---
 
-## 💼 About
+## 👋 Hey, I'm Prabhat
 
-Sensible Analytics is a technical consultancy specializing in **AI & Data Analytics** for regulated industries. Founded by [Prabhat Ranjan](https://www.linkedin.com/in/prabhatr/), we bring 20+ years of experience from JPMorgan, MSCI, BNP Paribas, and Canvas to help organizations navigate digital transformation.
+I help **healthcare, finance, and real estate** companies turn their data into competitive advantages. 
 
-### Our Track Record
+With **20+ years** building data platforms at JPMorgan, MSCI, and BNP Paribas, I now work with organisations that need **AI solutions that actually work** — not just proofs of concept.
 
-| Metric | Value |
-|--------|-------|
-| **20+** | Years Experience |
-| **500+** | Open Source Contributions |
-| **100%** | Regulatory Compliance |
-| **95%** | Client Retention |
+**The difference?** I build systems that handle real regulatory requirements (HIPAA, GDPR, SOC 2) while delivering measurable ROI.
 
 ---
 
-## 🔒 Security & Compliance
+## 🚀 Try These Tools (Built for Real Use)
 
-> ⚠️ **SECURITY FIRST APPROACH**
->
-> All repositories implement automated security scanning:
-> - Pre-commit hooks for secret detection
-> - GitHub Secret Scanning & Push Protection
-> - Dependency vulnerability monitoring
-> - Branch protection with required reviews
->
-> **Contributors:** Please review our [Security Policy](https://github.com/Sensible-Analytics/.github/blob/main/SECURITY.md) and [AI Agent Keys Policy](https://github.com/Sensible-Analytics/.github/blob/main/AI_AGENT_KEYS_POLICY.md)
+I don't just consult — I **build and ship**. Here are 7 production-ready applications you can use today:
 
-### Security Measures
+### 🏠 **PropRoo** — Property Intelligence for Australian Investors
+**What it does:** Smart analytics for Aussie real estate — market trends, rental yields, investment scores
 
-- ✅ **Secret Scanning** - Automatic detection of API keys, tokens, credentials
-- ✅ **Push Protection** - Blocks commits containing secrets
-- ✅ **Dependency Scanning** - CVE detection in all dependencies
-- ✅ **Code Analysis** - CodeQL security analysis
-- ✅ **Branch Protection** - Required reviews, status checks
+**Try it:** [proproo.sensibleanalytics.co](https://proproo.sensibleanalytics.co) (no signup required)
+
+**Perfect for:** Property investors tired of spreadsheets, agents wanting instant suburb reports
+
+**Tech:** React · Python · FastAPI
 
 ---
 
-## 🚀 Open Source Projects
+### 👥 **CrewCircle** — Workforce Management That Actually Works
+**What it does:** Rosters, GPS time tracking, and team management for shift-based businesses. **Free for up to 5 employees.**
 
-Production-ready applications built to solve real-world problems:
+**Try it:** [crewcircle.co](https://crewcircle.co) (start free immediately)
 
-### 🏠 Real Estate Analytics
+**Perfect for:** Cafes, clinics, retail stores — any Aussie business with casual staff
 
-<table>
-<tr>
-<td width="50%">
-
-#### [PropRoo](https://github.com/Sensible-Analytics/PropRoo)
-*Smart property analytics with Aussie flair*
-
-[![PropRoo](https://www.sensibleanalytics.co/logos/proproo-logo.png)](https://proproo.sensibleanalytics.co)
-
-**Tech:** TypeScript · React · Python  
-**Live:** [proproo.sensibleanalytics.co](https://proproo.sensibleanalytics.co)
-
-Market data, rental insights, and investment metrics for Australian property investors.
-
-</td>
-<td width="50%">
-
-#### [Rental App](https://github.com/Sensible-Analytics/rental-app)
-*Property management for landlords*
-
-Open source real estate management system featuring tenant management, payment tracking, and maintenance workflows.
-
-</td>
-</tr>
-</table>
-
-### 💰 Finance & Trading
-
-<table>
-<tr>
-<td width="50%">
-
-#### [Folio](https://github.com/Sensible-Analytics/folio)
-*Wealth management with Australian banking*
-
-Portfolio tracking with automatic Australian bank statement import. Built for local investors.
-
-</td>
-<td width="50%">
-
-#### [Qullamaggie Scanner](https://github.com/Sensible-Analytics/qullamaggie_scanner)
-*Professional momentum trading*
-
-[![Qullamaggie](https://www.sensibleanalytics.co/logos/qullamaggie-logo.png)](https://qullamaggie.sensibleanalytics.co)
-
-**Tech:** React · TypeScript · Python  
-**Live:** [qullamaggie.sensibleanalytics.co](https://qullamaggie.sensibleanalytics.co)
-
-20-point scoring system based on Qullamaggie methodology with live Yahoo Finance data.
-
-</td>
-</tr>
-</table>
-
-### 👥 Business Operations
-
-<table>
-<tr>
-<td width="50%">
-
-#### [CrewCircle](https://github.com/Sensible-Analytics/crewcircle)
-*Australian workforce management*
-
-[![CrewCircle](https://crewcircle.co/logo.png)](https://crewcircle.co)
-
-**Tech:** Next.js · React Native · Supabase  
-**Live:** [crewcircle.co](https://crewcircle.co)
-
-Roster scheduling, GPS time tracking, and team management for shift-based businesses. Free up to 5 employees.
-
-</td>
-<td width="50%">
-
-#### [CardScannerApp](https://github.com/Sensible-Analytics/CardScannerApp)
-*Mobile document scanning*
-
-React Native application for extracting card details using camera and OCR. Built with Expo.
-
-</td>
-</tr>
-</table>
-
-### 🤖 AI & Data
-
-#### [Video Analysis](https://github.com/Sensible-Analytics/video_analysis)
-*AI-powered video companion*
-
-Python-based pipeline for educational video analysis featuring transcription, visual capture, and the Split-Helix UI pattern for intelligent content navigation.
+**Tech:** Next.js · React Native · Supabase
 
 ---
 
-## 🛠️ Technology Stack
+### 📈 **Qullamaggie Scanner** — Professional Trading Intelligence
+**What it does:** 20-point momentum scoring system with live Yahoo Finance data. Based on the Qullamaggie methodology.
 
-<div align="center">
+**Try it:** [qullamaggie.sensibleanalytics.co](https://qullamaggie.sensibleanalytics.co)
 
-**AI & Machine Learning**  
-![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=flat-square&logo=tensorflow&logoColor=white)
-![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)
-![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=flat-square&logo=openai&logoColor=white)
+**Perfect for:** Traders who want data-driven entry/exit signals, not gut feelings
 
-**Frontend Development**  
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![React](https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black)
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white)
-![React Native](https://img.shields.io/badge/React_Native-61DAFB?style=flat-square&logo=react&logoColor=black)
-
-**Backend & Data**  
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
-![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white)
-![Apache Ignite](https://img.shields.io/badge/Apache_Ignite-D00000?style=flat-square&logo=apache&logoColor=white)
-
-**Cloud & DevOps**  
-![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonaws&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
-![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white)
-
-</div>
+**Tech:** React · TypeScript · Python
 
 ---
 
-## 👤 About the Founder
+### 💰 **Folio** — Track Your Wealth (Australian Banks Supported)
+**What it does:** Portfolio tracking with **automatic Australian bank statement import**. See all your investments in one place.
 
-**Prabhat Ranjan** — *Founding Engineer & Fractional CTO*
+**Try it:** Clone and run locally — it's open source!
 
-Based in Sydney, Australia, working globally with clients across healthcare, finance, and real estate sectors.
+**Perfect for:** Aussies who want to track shares, property, and cash across multiple banks
 
-- **20+ Years** in Data Platforms & AI
-- **IIT-BHU** Alumnus
+**Tech:** TypeScript · React
+
+---
+
+### 🏢 **Rental App** — Property Management for Landlords
+**What it does:** Open source property management — tenants, payments, maintenance, leases. **Free forever.**
+
+**Try it:** Fork it, customise it, self-host it
+
+**Perfect for:** Landlords managing multiple properties who want control without expensive software
+
+**Tech:** JavaScript · React · Node.js
+
+---
+
+### 📱 **CardScanner** — Scan Business Cards Instantly
+**What it does:** Mobile app that extracts contact details from business cards using your camera and OCR
+
+**Try it:** Download the app (iOS & Android)
+
+**Perfect for:** Anyone who collects business cards at conferences and never types them in
+
+**Tech:** React Native · Expo · Google ML Kit
+
+---
+
+### 🎥 **Video Analysis** — AI Study Companion
+**What it does:** Upload educational videos, get transcripts, visual summaries, and smart navigation with Split-Helix UI
+
+**Try it:** Clone and run with your own videos
+
+**Perfect for:** Students, researchers, or anyone learning from video content
+
+**Tech:** Python · AI/ML · Computer Vision
+
+---
+
+## 🛠️ What I Can Build For You
+
+### AI & Data Solutions
+- **Predictive analytics** — Patient risk scoring, fraud detection, demand forecasting
+- **Natural language interfaces** — Chatbots that actually understand your domain
+- **ML pipelines** — Automated model training, deployment, and monitoring
+- **Explainable AI** — Regulatory-compliant AI with full audit trails
+
+### Platform Modernisation
+- **Legacy system migrations** — EHR/EMR, banking cores, claims systems
+- **Data warehouse builds** — Snowflake, Redshift, BigQuery implementations
+- **API architectures** — FHIR/HL7 for healthcare, Open Banking standards
+- **Real-time systems** — Streaming analytics, event-driven architectures
+
+### Fractional CTO Services
+- **Technology strategy** — Roadmap development, vendor selection, architecture reviews
+- **Compliance** — HIPAA, GDPR, SOC 2, APRA (Australian) readiness
+- **Team building** — Hiring, process setup, engineering culture
+- **Technical due diligence** — For investors acquiring healthcare/fintech companies
+
+**[→ Book a Free Consultation](https://www.sensibleanalytics.co/#contact)**
+
+---
+
+## 💡 Why Work With Me?
+
+**Real Experience, Not Just Theory:**
+- Led **$30M analytics platform** modernization at JPMorgan (400+ funds, zero downtime)
+- Transformed healthcare consultancy into **global SaaS** (83% subscription revenue, 76% cost reduction)
+- **20+ years** in data platforms (not 2 years of tutorial projects)
+
+**Regulatory Expertise:**
+- Built systems that pass **HIPAA, GDPR, SOC 2** audits
+- Understand healthcare (FHIR, HL7) and finance (PCI-DSS, banking regulations)
+- Security-first architecture from day one
+
+**I Actually Ship:**
+- These 7 open source projects? **All production-ready**, not demos
+- Contributor to **Apache Ignite** (used by Fortune 500s)
+- **500+ open source contributions** — I believe in building in public
+
+---
+
+## 🌟 Recent Results
+
+### Healthcare Analytics Platform
+*Client: Healthcare Consultancy → Global SaaS Provider*
+
+- **83%** subscription revenue (up from 56%)
+- **3x** client capacity increase
+- **76%** infrastructure cost reduction
+- **Zero** compliance issues during migration
+
+### Financial Services Platform
+*Client: Major Investment Bank*
+
+- Led **$30M** investor analytics platform serving **400+ global funds**
+- **7 new ESG clients** onboarded post-modernization
+- **0% downtime** during migration
+- Passed all regulatory audits
+
+---
+
+## 👤 About Me
+
+**Prabhat Ranjan** — Founding Engineer & Fractional CTO
+
+📍 Sydney, Australia (working globally)
+
+**Background:**
+- **IIT-BHU** alumnus (Computer Science)
+- **20+ years** building data platforms
 - **Ex-JPMorgan, MSCI, BNP Paribas, Canvas**
-- **Apache Ignite** Contributor
-- **Anthropic** — Agent Skills, MCP Advanced
-- **Hugging Face** — AI Agents Fundamentals
+- **Apache Ignite** contributor
 
+**Certifications:**
+- Anthropic — Agent Skills, MCP Advanced
+- Hugging Face — AI Agents Fundamentals
+- Coursera — Data Science Specialization
+
+**Let's connect:**
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/prabhatr/)
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/rprabhat)
 [![Substack](https://img.shields.io/badge/Substack-FF6719?style=flat-square&logo=substack&logoColor=white)](https://prabhatranjan.substack.com)
 
 ---
 
-## 🤝 Services
+## 🔒 Security Note
 
-### AI & Data Analytics
-Design and implement AI-powered analytics solutions including:
-- Predictive analytics for patient risk stratification
-- Natural language interfaces over complex datasets
-- ML pipelines for fraud detection and claims analysis
-- Explainable AI with full audit trails for compliance
-
-### Platform Modernisation
-Transform legacy systems to cloud-native architectures:
-- Legacy EHR/EMR migration to secure cloud platforms
-- Data warehouse modernization (Snowflake, Redshift, BigQuery)
-- API-first architecture for healthcare data (FHIR, HL7)
-- Performance optimization for real-time analytics
-
-### Fractional CTO
-Strategic technology leadership for digital transformation:
-- Technology strategy and roadmap development
-- Regulatory compliance (HIPAA, GDPR, SOC 2)
-- Architecture review and vendor selection
-- Engineering team building and process optimization
-
-[→ Book a Consultation](https://www.sensibleanalytics.co/#contact)
+All repositories include automated security scanning. If you're contributing, please:
+- Review our [Security Policy](SECURITY.md)
+- Never commit API keys or credentials
+- Use `.env.example` as a template
 
 ---
 
-## 📄 License
+## 📄 Open Source License
 
-All open source projects are released under the [MIT License](https://github.com/Sensible-Analytics/.github/blob/main/LICENSE) unless otherwise specified.
+All projects are **MIT licensed** — use them, fork them, customise them for your needs. Just give credit where it's due.
 
 ---
 
 <div align="center">
 
-**Ready to transform your data infrastructure?**
+**Have a project in mind?**
 
-[Get in Touch](mailto:hello@sensibleanalytics.co) · [Visit Website](https://www.sensibleanalytics.co)
+[📧 Email Me](mailto:hello@sensibleanalytics.co) · [🌐 Visit Website](https://www.sensibleanalytics.co) · [💼 Connect on LinkedIn](https://www.linkedin.com/in/prabhatr/)
 
-*© 2026 Sensible Analytics. Built with ❤️ in Sydney, Australia.*
+*Based in Sydney. Working globally. Building for regulated industries.*
 
 </div>
