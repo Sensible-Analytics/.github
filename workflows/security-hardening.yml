@@ -1,0 +1,189 @@
+name: Security Hardening
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+
+jobs:
+  # AI Agent Keys Detection
+  ai-keys-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Scan for AI Agent Keys
+        run: |
+          # Check for OpenAI keys
+          if grep -r "sk-[a-zA-Z0-9]\{48,\}" . --include="*.js" --include="*.ts" --include="*.py" --include="*.json" --include="*.yaml" --include="*.yml" 2>/dev/null; then
+            echo "❌ Found potential OpenAI API key"
+            exit 1
+          fi
+          
+          # Check for Anthropic keys
+          if grep -r "sk-ant-[a-zA-Z0-9_-]\+" . --include="*.js" --include="*.ts" --include="*.py" 2>/dev/null; then
+            echo "❌ Found potential Anthropic API key"
+            exit 1
+          fi
+          
+          # Check for Hugging Face tokens
+          if grep -r "hf_[a-zA-Z]\{34,\}" . --include="*.js" --include="*.ts" --include="*.py" 2>/dev/null; then
+            echo "❌ Found potential Hugging Face token"
+            exit 1
+          fi
+          
+          # Check for hardcoded keys in config files
+          if grep -r "api_key.*=.*['\"]sk-" . --include="*.js" --include="*.ts" --include="*.py" 2>/dev/null; then
+            echo "❌ Found hardcoded API key"
+            exit 1
+          fi
+          
+          echo "✅ No AI agent keys found in source code"
+
+  # Environment File Check
+  env-file-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check for committed .env files
+        run: |
+          if find . -name ".env" -o -name ".env.local" -o -name ".env.production" | grep -q .; then
+            echo "❌ Found committed .env file(s):"
+            find . -name ".env" -o -name ".env.local" -o -name ".env.production"
+            exit 1
+          fi
+          echo "✅ No .env files committed"
+      
+      - name: Verify .env.example exists
+        run: |
+          if [ ! -f ".env.example" ]; then
+            echo "⚠️  Warning: .env.example not found"
+            echo "Creating template..."
+            cat > .env.example << 'EOF'
+# Environment Variables Template
+# Copy to .env and fill in real values
+# NEVER commit .env to git!
+
+OPENAI_API_KEY=your-openai-key
+ANTHROPIC_API_KEY=your-anthropic-key
+DATABASE_URL=postgresql://user:pass@localhost:5432/db
+JWT_SECRET=your-jwt-secret
+EOF
+            echo "✅ Created .env.example"
+          else
+            echo "✅ .env.example exists"
+          fi
+
+  # Sensitive Data Patterns
+  sensitive-data-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Scan for sensitive patterns
+        run: |
+          # Check for private keys
+          if find . -name "*.pem" -o -name "*.key" -o -name "id_rsa" | grep -q .; then
+            echo "❌ Found private key file(s)"
+            find . -name "*.pem" -o -name "*.key" -o -name "id_rsa"
+            exit 1
+          fi
+          
+          # Check for database passwords in connection strings
+          if grep -r "postgresql://[^:]*:[^@]*@" . --include="*.js" --include="*.ts" --include="*.py" 2>/dev/null; then
+            echo "❌ Found database connection string with password"
+            exit 1
+          fi
+          
+          # Check for AWS keys
+          if grep -r "AKIA[0-9A-Z]\{16\}" . 2>/dev/null; then
+            echo "❌ Found AWS Access Key ID"
+            exit 1
+          fi
+          
+          echo "✅ No sensitive data patterns found"
+
+  # Dependency Security Audit
+  dependency-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Run npm audit
+        run: |
+          if [ -f "package.json" ]; then
+            npm audit --audit-level=high --json || true
+          fi
+      
+      - name: Check for vulnerable dependencies
+        run: |
+          if [ -f "package.json" ]; then
+            npm audit --audit-level=high 2>&1 | grep -E "(Critical|High)" && exit 1 || echo "✅ No high/critical vulnerabilities"
+          fi
+        continue-on-error: true
+
+  # Container Security (if Dockerfile exists)
+  container-scan:
+    runs-on: ubuntu-latest
+    if: hashFiles('**/Dockerfile') != ''
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build Docker image
+        run: |
+          if [ -f "Dockerfile" ]; then
+            docker build -t app:security-scan .
+          fi
+      
+      - name: Scan Docker image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'app:security-scan'
+          format: 'sarif'
+          output: 'trivy-image-results.sarif'
+        continue-on-error: true
+      
+      - name: Upload scan results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-image-results.sarif'
+        continue-on-error: true
+
+  # Code Quality Security
+  code-quality-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check for TODO/FIXME security comments
+        run: |
+          if grep -r "TODO.*security\|FIXME.*security\|HACK.*password\|XXX.*key" . --include="*.js" --include="*.ts" --include="*.py" 2>/dev/null; then
+            echo "⚠️  Found security-related TODO/FIXME comments - please review"
+          fi
+          echo "✅ Security comment check complete"
+      
+      - name: Check for console.log with sensitive data
+        run: |
+          if grep -r "console\.log.*password\|console\.log.*token\|console\.log.*secret\|console\.log.*key" . --include="*.js" --include="*.ts" 2>/dev/null; then
+            echo "⚠️  Found potential sensitive data logging"
+            exit 1
+          fi
+          echo "✅ No sensitive data logging found"

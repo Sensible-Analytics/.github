@@ -1,0 +1,179 @@
+repos:
+  # Primary Secret Detection
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        exclude: >-
+          (?x)^(
+            package-lock.json|
+            yarn.lock|
+            pnpm-lock.yaml|
+            poetry.lock|
+            Pipfile.lock|
+            .secrets.baseline|
+            .*\.svg|
+            .*\.json
+          )$
+
+  # Gitleaks - Fast secret scanner
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.1
+    hooks:
+      - id: gitleaks
+        args: ['--verbose', '--redact']
+
+  # AI Agent Key Detection (Custom)
+  - repo: local
+    hooks:
+      - id: check-ai-keys
+        name: Check for AI Agent Keys
+        entry: bash -c '
+          ERRORS=0;
+          if grep -r "sk-[a-zA-Z0-9]\{48,\}" . --include="*.js" --include="*.ts" --include="*.py" --include="*.json" 2>/dev/null | grep -v "\.env\.example"; then
+            echo "❌ Found potential OpenAI API key";
+            ERRORS=$((ERRORS + 1));
+          fi;
+          if grep -r "sk-ant-[a-zA-Z0-9_-]\+" . --include="*.js" --include="*.ts" --include="*.py" 2>/dev/null | grep -v "\.env\.example"; then
+            echo "❌ Found potential Anthropic API key";
+            ERRORS=$((ERRORS + 1));
+          fi;
+          if grep -r "hf_[a-zA-Z]\{34,\}" . --include="*.js" --include="*.ts" --include="*.py" 2>/dev/null | grep -v "\.env\.example"; then
+            echo "❌ Found potential Hugging Face token";
+            ERRORS=$((ERRORS + 1));
+          fi;
+          if [ $ERRORS -gt 0 ]; then
+            echo "";
+            echo "🚨 SECURITY ALERT: AI Agent keys detected!";
+            echo "Remove these keys and use environment variables instead.";
+            echo "See AI_AGENT_KEYS_POLICY.md for details.";
+            exit 1;
+          fi;
+          echo "✅ No AI agent keys found";
+        '
+        language: system
+        pass_filenames: false
+        always_run: true
+
+  # Check for .env files
+  - repo: local
+    hooks:
+      - id: check-env-files
+        name: Check for committed .env files
+        entry: bash -c '
+          if git diff --cached --name-only | grep -E "^\.env($|\.)"; then
+            echo "❌ Attempting to commit .env file!";
+            echo "";
+            echo "🚨 SECURITY VIOLATION: .env files must NEVER be committed.";
+            echo "";
+            echo "To fix:";
+            echo "  1. Remove .env from staging: git reset HEAD .env";
+            echo "  2. Add to .gitignore: echo .env >> .gitignore";
+            echo "  3. Use .env.example for templates";
+            echo "";
+            echo "See SECURITY_QUICK_REFERENCE.md for details.";
+            exit 1;
+          fi;
+          echo "✅ No .env files in commit";
+        '
+        language: system
+        pass_filenames: false
+        always_run: true
+
+  # Check for private keys
+  - repo: local
+    hooks:
+      - id: check-private-keys
+        name: Check for private key files
+        entry: bash -c '
+          FILES=$(git diff --cached --name-only | grep -E "\.(pem|key|p12|pfx)$|id_rsa|id_dsa|id_ecdsa" || true);
+          if [ -n "$FILES" ]; then
+            echo "❌ Attempting to commit private key files:";
+            echo "$FILES";
+            echo "";
+            echo "🚨 SECURITY VIOLATION: Private keys must NEVER be committed.";
+            echo "";
+            echo "To fix:"
+            echo "  1. Remove keys from staging: git reset HEAD <file>";
+            echo "  2. Add to .gitignore: echo '*.pem' >> .gitignore";
+            echo "  3. Store keys securely (1Password, AWS Secrets Manager, etc.)";
+            exit 1;
+          fi;
+          echo "✅ No private key files in commit";
+        '
+        language: system
+        pass_filenames: false
+        always_run: true
+
+  # Check for database passwords
+  - repo: local
+    hooks:
+      - id: check-db-passwords
+        name: Check for database passwords in code
+        entry: bash -c '
+          if grep -r "postgresql://[^:]*:[^@]*@" . --include="*.js" --include="*.ts" --include="*.py" 2>/dev/null | grep -v "\.env\.example"; then
+            echo "❌ Found database connection string with embedded password!";
+            echo "";
+            echo "🚨 SECURITY VIOLATION: Database passwords must use environment variables.";
+            echo "";
+            echo "Use: process.env.DATABASE_URL";
+            echo "Not: const url = \"postgresql://user:password@host...\"";
+            exit 1;
+          fi;
+          echo "✅ No hardcoded database passwords found";
+        '
+        language: system
+        pass_filenames: false
+        always_run: true
+
+  # Check for AWS keys
+  - repo: local
+    hooks:
+      - id: check-aws-keys
+        name: Check for AWS Access Keys
+        entry: bash -c '
+          if grep -rE "AKIA[0-9A-Z]{16}" . --include="*.js" --include="*.ts" --include="*.py" 2>/dev/null; then
+            echo "❌ Found AWS Access Key ID!";
+            echo "";
+            echo "🚨 SECURITY VIOLATION: AWS keys must use environment variables or IAM roles.";
+            exit 1;
+          fi;
+          echo "✅ No AWS keys found";
+        '
+        language: system
+        pass_filenames: false
+        always_run: true
+
+  # Check for console.log of sensitive data
+  - repo: local
+    hooks:
+      - id: check-console-logs
+        name: Check for sensitive data in console.log
+        entry: bash -c '
+          MATCHES=$(grep -rn "console\.log.*password\|console\.log.*token\|console\.log.*secret\|console\.log.*key\|console\.log.*apiKey" . --include="*.js" --include="*.ts" 2>/dev/null | grep -v "node_modules" | grep -v "\.d\.ts" || true);
+          if [ -n "$MATCHES" ]; then
+            echo "⚠️  Warning: Potential sensitive data in console.log:";
+            echo "$MATCHES";
+            echo "";
+            echo "Review these before committing. Remove any logs containing secrets.";
+          fi;
+          echo "✅ Console.log check complete";
+        '
+        language: system
+        pass_filenames: false
+        always_run: true
+
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-json
+      - id: check-yaml
