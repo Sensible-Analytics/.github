@@ -1,0 +1,38 @@
+# AI Agent Files - Block these from being committed
+AGENTS.md
+CLAUDE.md
+SYSTEM_PROMPT.md
+agent-instructions.md
+prompt.md
+
+# Agent directories
+.ai/
+.agent/
+.sisyphus/
+openhands/
+opencode/
+
+# Personal references (uncomment if needed)
+# sensibleanalytics.co
+# prabhatranjan
+
+# Secrets
+.env
+.env.local
+*.pem
+*.key
+secrets.json
+credentials.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
