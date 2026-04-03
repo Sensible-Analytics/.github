@@ -1,88 +1,52 @@
-# AI Agent System Prompts - Sensible Analytics Organization
+# Sensible Analytics Agent Instructions
 
-This file contains organization-wide prompts that should be used when working with any AI agent (OpenCode, Cursor, GitHub Copilot, etc.) on Sensible Analytics repositories.
+You are working on a Sensible Analytics repository. Follow these organization-wide standards.
 
-## 🔑 Organization Context
+## Organization Context
+- Industry: Regulated industries (Healthcare, Financial Services, Property Management)
+- Location: Sydney, Australia
+- Compliance: HIPAA, GDPR, SOC 2, Australian Privacy Act
 
-**Industry:** Regulated industries (Healthcare, Financial Services, Property Management)
-**Location:** Sydney, Australia
-**Standards:** HIPAA, GDPR, SOC 2, Australian Privacy Act
+## 🚫 Never Do
+- Push directly to `main`/`master` - always use PRs
+- Commit API keys, secrets, or credentials
+- Leave `.env` files in git
+- Use `any` type in TypeScript
+- Skip tests for "quick fixes"
 
-## 🤖 Universal AI Agent Instructions
+## ✅ Always Do
+- Use branch protection workflow
+- Write tests for new features
+- Run lint before commit
+- Use environment variables for secrets
+- Put intermediate docs in `.doc/` folder
 
-You are working on a Sensible Analytics repository. All our projects follow these organization-wide standards:
+## 📁 Required Folder Structure
+```
+repo/
+├── .doc/           # Intermediate docs (REQUIRED)
+│   ├── planning/
+│   ├── specs/
+│   └── notes/
+├── src/            # Source code
+├── tests/          # Test files
+├── .github/        # CI/CD configs
+└── docs/           # Public docs
+```
 
-### 1. Branch Protection
-- NEVER push directly to `main` or `master`
-- All changes MUST go through Pull Requests
-- Branch naming: `feat/`, `fix/`, `docs/`, `refactor/`, `test/`, `chore/`
-
-### 2. Security-First Mindset
-- NEVER commit API keys, secrets, or credentials
-- All secrets MUST use environment variables
-- Follow the AI_AGENT_KEYS_POLICY.md guidelines
-- Report any security concerns immediately
-
-### 3. Document Organization
-- Intermediate documents go in `.doc/` folder
-- Use folders: `.doc/planning/`, `.doc/specs/`, `.doc/notes/`
-- NEVER leave loose documents in root
-
-### 4. Testing Requirements
-- All new features MUST have tests
-- Run tests before submitting PR
-- Maintain >80% test coverage
-
-### 5. Type Safety
-- Use TypeScript for all new code
-- NEVER use `any` type
-- Enable strict mode in tsconfig
-
-### 6. Code Quality
-- Run linting before commits
-- Follow existing code patterns
-- Write descriptive commit messages
-
-## 📋 Per-Project Type Standards
-
-### Next.js/TypeScript Projects
-- Use App Router (`app/` directory)
-- Server components by default
-- Use React Server Components for data fetching
-- Style with Tailwind CSS
-
-### Python Projects
-- Use type hints everywhere
-- Follow PEP 8
-- Use pydantic for data validation
-- Include docstrings for all public functions
-
-### Database Projects
-- All schemas MUST have migrations
-- Include rollback scripts
-- Use foreign key constraints
-- Add indexes for frequently queried columns
-
-## 🔒 Security Checklist (Run Before Every PR)
-
+## 🔐 Security Checklist
 - [ ] No API keys or secrets in code
-- [ ] No hardcoded credentials
+- [ ] No hardcoded credentials  
 - [ ] Environment variables documented
 - [ ] SQL injection prevented
 - [ ] XSS protection in place
-- [ ] CSRF tokens implemented
-- [ ] Input validation on all endpoints
 
 ## 📝 Commit Message Format
-
 ```
 type(scope): description
-
-[optional body]
 ```
-
 Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`
 
 ---
 
-**Remember:** You represent Sensible Analytics. Write code that would pass security audit for HIPAA/GDPR compliance.
+**Full context:** ~/.sensible/agent-instructions/ or Sensible-Analytics/.github
