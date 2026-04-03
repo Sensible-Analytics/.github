@@ -1,0 +1,42 @@
+# Pre-commit hooks to prevent unwanted commits
+
+repos:
+  # Detect secrets
+  - repo: https://github.com/trufflesecurity/trufflehog
+    rev: main
+    hooks:
+      - id: trufflehog
+        args: ["--no-update", "--only-verified"]
+
+  # Block unwanted markdown files
+  - repo: local
+    hooks:
+      - id: block-agent-files
+        name: Block AI agent files
+        entry: (grep -q "AGENTS.md\|CLAUDE.md\|SYSTEM_PROMPT.md" {0} && exit 1) || exit 0
+        language: system
+        types: [markdown]
+        pass_filenames: false
+
+      - id: block-ai-notes
+        name: Block AI notes directories
+        entry: find . -name ".ai" -o -name ".agent" -o -name ".sisyphus"
+        language: system
+        types: [any]
+
+  # Check for personal references
+  - repo: local
+    hooks:
+      - id: check-personal-refs
+        name: Check for personal references
+        entry: grep -r "sensibleanalytics.co\|prabhatranjan" --include="*.ts" --include="*.js" --include="*.py"
+        language: system
+        types: [python, javascript, typescript]
+        pass_filenames: false
+
+  # Ensure no secrets
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: detect-private-key
+      - id: secret-secrets
