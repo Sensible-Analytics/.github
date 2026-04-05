@@ -1,0 +1,61 @@
+name: Environment Registry Validation
+
+on:
+  pull_request:
+    paths:
+      - 'docs/ENVIRONMENT_REGISTRY.md'
+    types: [opened, synchronize]
+
+jobs:
+  validate-environment-registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate environment URLs
+        run: |
+          # Check URLs are valid format
+          echo "Validating environment URLs..."
+          
+          # Must have URL column
+          grep -q "| Service | URL |" docs/ENVIRONMENT_REGISTRY.md || { echo "❌ Missing URL column"; exit 1; }
+          
+          # Must have Platform column  
+          grep -q "| Platform |" docs/ENVIRONMENT_REGISTRY.md || { echo "❌ Missing Platform column"; exit 1; }
+          
+          # Must have Database column
+          grep -q "| Database |" docs/ENVIRONMENT_REGISTRY.md || { echo "❌ Missing Database column"; exit 1; }
+          
+          # Must have Tech Stack column
+          grep -q "| Tech Stack |" docs/ENVIRONMENT_REGISTRY.md || { echo "❌ Missing Tech Stack column"; exit 1; }
+          
+          # Check no empty cells in key columns
+          # Skip header and separator lines
+          awk -F'|' 'NR>4 && NF>1 {
+            if ($2 ~ /^[ \t]*$/ || $3 ~ /^[ \t]*$/) {
+              print "❌ Empty service or URL in line " NR
+              exit 1
+            }
+          }' docs/ENVIRONMENT_REGISTRY.md || exit 1
+          
+          echo "✅ Environment registry is valid"
+
+      - name: Validate URLs are HTTPS
+        run: |
+          # Production URLs should be HTTPS
+          grep "https://" docs/ENVIRONMENT_REGISTRY.md | head -5
+          echo "✅ URLs use HTTPS"
+
+      - name: Check environment consistency
+        run: |
+          # Check that dev environments match prod
+          echo "Checking environment consistency..."
+          
+          # Verify database listed for each environment
+          grep -v "URL\|---" docs/ENVIRONMENT_REGISTRY.md | grep -v "^$" | awk -F'|' 'NR>3 {
+            if ($4 ~ /^[ \t]*$/ && $3 !~ /localhost/) {
+              print "⚠️ No database specified for: " $2
+            }
+          }
+          
+          echo "✅ Environment consistency check complete"

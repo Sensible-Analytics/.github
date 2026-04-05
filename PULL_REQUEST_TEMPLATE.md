@@ -37,6 +37,14 @@
 > |-----------|-------------|-------|
 > | | | |
 > 
+> ### Environment Changes
+> - [ ] No environment changes
+> - [ ] **UPDATE NEEDED** - See `docs/ENVIRONMENT_REGISTRY.md`
+> 
+> | Service | What Changed | URL/Database/Stack |
+> |---------|--------------|---------------------|
+> | | | |
+> 
 > ### New Dependencies
 > - [ ] No new dependencies
 > - [ ] New package: `<package>` - reason: `<why>`
