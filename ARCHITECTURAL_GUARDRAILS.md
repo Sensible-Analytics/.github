@@ -313,6 +313,41 @@ Violations → Block merge
 
 ---
 
+## 🔧 GitHub Agentic Workflows (gh-aw)
+
+Use `gh-aw` for AI agent task automation:
+
+```bash
+# Install gh-aw
+gh extension install github/gh-aw
+
+# Initialize for a repo
+gh aw init
+
+# Run a workflow
+gh aw run my-workflow
+```
+
+### Key Commands
+
+| Command | Purpose |
+|---------|---------|
+| `gh aw init` | Set up new workflow |
+| `gh aw new <name>` | Create workflow |
+| `gh aw compile` | Compile to Actions YAML |
+| `gh aw run <workflow>` | Execute workflow |
+| `gh aw logs <workflow>` | View logs |
+
+### Safe Outputs
+```markdown
+safe-outputs:
+  add-comment:
+  create-issue:
+    labels: [ agent-task ]
+```
+
+---
+
 ## Related Documentation
 
 - [AI_CODE_GENERATION_STANDARDS.md](./AI_CODE_GENERATION_STANDARDS.md)
