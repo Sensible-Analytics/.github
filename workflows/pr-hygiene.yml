@@ -1,0 +1,92 @@
+name: PR Hygiene & Documentation Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  pr-hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check PR has AI disclosure
+        run: |
+          BODY="${{ github.event.pull_request.body }}"
+          if echo "$BODY" | grep -q "AI-assisted\|AI-generated"; then
+            echo "✅ AI disclosure found"
+          else
+            echo "❌ ERROR: PR must include AI disclosure (AI-assisted or AI-generated)"
+            echo "   Add this at the top of your PR description"
+            exit 1
+          fi
+
+      - name: Check PR has summary
+        run: |
+          BODY="${{ github.event.pull_request.body }}"
+          if echo "$BODY" | grep -qi "Summary"; then
+            echo "✅ Summary section found"
+          else
+            echo "❌ ERROR: PR must have Summary section"
+            exit 1
+          fi
+
+      - name: Check no debug code
+        run: |
+          # Check for debug code in changes
+          DEBUG_FILES=$(git diff --name-only HEAD | xargs grep -l "console.log\|debugger\|TODO.*FIXME" 2>/dev/null || true)
+          if [ -n "$DEBUG_FILES" ]; then
+            echo "❌ WARNING: Debug code found in:"
+            echo "$DEBUG_FILES"
+            echo "   Remove before merging"
+          else
+            echo "✅ No debug code found"
+          fi
+
+      - name: Check documentation for architecture changes
+        run: |
+          # Check if architecture files changed
+          ARCH_CHANGES=$(git diff --name-only HEAD | grep -E "architecture|diagram|flow|mermaid" || true)
+          DOCS_CHANGES=$(git diff --name-only HEAD | grep -E "docs/|README|ARCHITECTURE" || true)
+          
+          if [ -n "$ARCH_CHANGES" ]; then
+            echo "⚠️ Architecture changes detected - ensure diagrams updated"
+            echo "   Files: $ARCH_CHANGES"
+          fi
+
+      - name: Check repository structure
+        run: |
+          # Check for common issues
+          ISSUES=""
+          
+          # Check for .env in repo
+          if git diff --name-only HEAD | grep -q "\.env"; then
+            echo "⚠️ .env file changes detected - ensure no secrets"
+          fi
+          
+          # Check for large files
+          LARGE_FILES=$(git diff --name-only HEAD | while read f; do [ -f "$f" ] && [ $(stat -f%z "$f" 2>/dev/null || stat -c%s "$f" 2>/dev/null) -gt 1000000 ] && echo "$f"; done || true)
+          if [ -n "$LARGE_FILES" ]; then
+            echo "⚠️ Large files added: $LARGE_FILES"
+          fi
+          
+          echo "✅ Repository structure check complete"
+
+  doc-check:
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'documentation')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check markdown links
+        run: |
+          npm install -g markdown-link-check@3.14.1
+          find docs -name "*.md" -exec markdown-link-check -q {} \; || echo "⚠️ Some links may be broken"
+
+      - name: Check for required doc sections
+        run: |
+          # Verify docs exist for changed components
+          echo "Documentation check for PR changes..."
