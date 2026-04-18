@@ -11,10 +11,9 @@ Before any work, you MUST load the Sensible Analytics standards:
    ~/.superset/hooks/opencode/skills/sensible-standards/SKILL.md
    ```
 
-2. **If not available locally**, fetch from GitHub:
+2. **If not available locally**, read:
    ```
-   https://github.com/Sensible-Analytics/.github/blob/main/AGENT_WORKFLOW.md
-   https://github.com/Sensible-Analytics/.github/blob/main/AI_CODE_GENERATION_STANDARDS.md
+   ~/Business/sensibleAnalytics/.github/AGENTS.md
    ```
 
 ## 📋 Branch Protection
