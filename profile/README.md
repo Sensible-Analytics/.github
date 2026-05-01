@@ -1,7 +1,5 @@
 # Sensible Analytics
 
-[![Sensible Analytics](https://www.sensibleanalytics.co/logo.png)](https://www.sensibleanalytics.co)
-
 ## Building Reasoning Engines for Regulated Industries
 
 AI architecture for healthcare, finance, and real estate. We partner with organisations to build data solutions that deliver measurable business outcomes.
