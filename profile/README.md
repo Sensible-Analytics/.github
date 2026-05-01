@@ -1,6 +1,5 @@
 # Sensible Analytics
 
-[![Sensible Analytics](https://www.sensibleanalytics.co/logo.png)](https://www.sensibleanalytics.co)
 
 ## Building Reasoning Engines for Regulated Industries
 
